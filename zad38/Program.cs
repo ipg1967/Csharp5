@@ -9,45 +9,43 @@ int ReadInt(string text)
     return Convert.ToInt32(Console.ReadLine());
 }
 
-int[] FillArray(int size, int leftRange, int rightRange)
+double[] FillArray(int size, int leftRange, int rightRange)
 {
-    int[] tempArray = new int[size];
+    double[] tempArray = new double[size];
     Random rand = new Random();
-
     for (int i = 0; i < tempArray.Length; i++)
     {
-        tempArray[i] = rand.Next(leftRange, rightRange + 1);
+        tempArray[i] = Math.Round(rand.Next(leftRange, rightRange + 1) + rand.NextDouble(), 2);
     }
     return tempArray;
 }
 
-void PrintArray(int[] arrayForPrint)
+void PrintArray(double[] arrayForPrint)
 {
     System.Console.WriteLine("[" + string.Join(", ", arrayForPrint) + "]");
 }
 
-int FindSumOdd(int[] tempArray)
+void FindDeltaMinMax(double[] tempArray, out double minN, out double maxN)
 {
-    int N = 0;
-    for (int i = 1; i < tempArray.Length; i = i + 2)
+    minN = tempArray[0];
+    maxN = tempArray[0];
+    for (int i = 1; i < tempArray.Length; i++)
     {
-
-        N = N + tempArray[i];
-
+        if (tempArray[i] < minN)
+        {
+            minN = tempArray[i]; // ищем минимум
+        }
+        if (tempArray[i] > maxN)
+        {
+            maxN = tempArray[i]; // ищем максимум
+        }
     }
-    return N;
 }
 
 // ---------------------------------------------------------------------------
 
-int[] array = FillArray(ReadInt("Введите длину массива:  "), -99, 99);
-
-if (array.Length == 1)
-{
-    System.Console.WriteLine("В массиве нет нечетных элементов");
-}
-else
-{
-    PrintArray(array);
-    System.Console.WriteLine($"Сумма нечетных элементов массива равна :  {FindSumOdd(array)}");
-}
+double[] array = FillArray(ReadInt("Введите длину массива:  "), 0, 99);
+PrintArray(array);
+FindDeltaMinMax(array, out double minN, out double maxN);
+System.Console.WriteLine($"Разница между максимальным элементом массива {maxN} и минимальным элементом {minN} равна {maxN-minN}");
+System.Console.WriteLine();
